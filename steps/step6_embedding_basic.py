@@ -24,9 +24,9 @@ print( '차원=>', len(vectors[2]), vectors[2]) # 정규화 처리로 인해 음
 def cosine_sim(a, b):
     내적    = sum(x*y for x, y in zip(a, b))
     a백터크기   = sqrt(sum(x*x for x in a))
-    b백터크기   = sqrt(x*x for x in b)
+    b백터크기   = sqrt(sum(x*x for x in b))
     return 내적 / (a백터크기 * b백터크기)
 
 print(cosine_sim(vectors[0], vectors[1]))
+print(cosine_sim(vectors[0], vectors[2]))
 print(cosine_sim(vectors[1], vectors[2]))
-print(cosine_sim(vectors[2], vectors[3]))
