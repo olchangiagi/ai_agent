@@ -12,5 +12,18 @@ L docker-compose.yml
 
 # DB 구성
 ```
+# DB 설치
 docker compose up -d
+
+# 연결정보 추가 (postgresql://agent:agent@localhost:5432/agentlab)
+.env
+app.config.py
+```
+
+# 초기 SQL 구성
+```
+/
+L sql
+    L migrations
+        L 001_pgvector.sql
 ```
