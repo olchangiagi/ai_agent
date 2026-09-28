@@ -1,3 +1,5 @@
 .env
 /agent
 agent/
+# 캐싱파일
+__pycache__/
