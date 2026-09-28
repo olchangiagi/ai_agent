@@ -19,3 +19,7 @@ git        C:\Program Files\Git\cmd\git.EXE
 docker     C:\Program Files\Docker\Docker\resources\bin\docker.EXE
 aws        C:\Program Files\Amazon\AWSCLIV2\aws.EXE
 ```
+- python -m steps.step1_check
+```
+
+```
