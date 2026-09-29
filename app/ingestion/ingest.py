@@ -11,7 +11,7 @@ from app.database import connect
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data"
-print(DATA)
+# print(DATA)
 # rglob() : 하위 경로까지 다 찾아가서 해당 파일을 찾음
 # print(DATA.rglob("*.md"))
 
@@ -37,19 +37,20 @@ def ingest_file(path: Path):
             (document_code, department, category, title, source, version, effective_date)
             values
             (%s, %s, %s, %s, %s, %s, %s)
+            on conflict(document_code)
             do update set
-                department = EXCLUDED.department
-                category = EXCLUDED.category
-                title = EXCLUDED.title
-                source = EXCLUDED.source
-                version = EXCLUDED.version
+                department = EXCLUDED.department,
+                category = EXCLUDED.category,
+                title = EXCLUDED.title,
+                source = EXCLUDED.source,
+                version = EXCLUDED.version,
                 effective_date = EXCLUDED.effective_date
             returning id    
         """, (meta['document_code'], meta['department'], meta['category'], meta['title'], str(path.relative_to(ROOT)), meta.get('version'), meta.get('effective_date')))
         # 참조키
         document_id = cur.fetchone()[0]
         # 같은 문서로 저장된 청크가 존재한다면 -> 삭제
-        cur.execute('delete from document_chunks where document_id=%s')
+        cur.execute('delete from document_chunks where document_id=%s', (document_id,))
         # n회 document_chunks 저장
         for i, (chunk, vector) in enumerate(zip(chunks, vectors)):
             cur.execute("""

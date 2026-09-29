@@ -13,9 +13,9 @@ def load_markdown(path:Path):
     '''
     # 1. markdown 전체 읽은 후 yaml 프런트 포멧터가 존재하는지 확인
     text = path.read_text(encoding = 'utf-8')
-    print(text)
+    # print(text)
     # 2. 구분자 체크(---)
-    if text.startswith('---'):
+    if not text.startswith('---'):
         return {}, text
     # 3. '---' 최대 2회만 분할
     _, meta, body = text.split('---', 2)

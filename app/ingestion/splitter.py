@@ -22,8 +22,9 @@ def splite_text(text:str, max_chars:int = 700):
         # 2. 청킹 후보에 대한 길이 확인(청킹의 분할 기준이 문자수 = 700)
         if current_doc and len(candidate_doc) > max_chars:
             # 3. 청크에 추가 -> 청크 1개 확정
-            chunks.append()
+            chunks.append(current_doc)
             # 4. 리셋
+            current_doc = p
         else:
             # 현재 보관문서에 후보군 문서 설정
             current_doc = candidate_doc 
