@@ -16,6 +16,8 @@ print(DATA)
 def ingest_file(path: Path):
     # 1. 문서내에서 메타 데이터와 본문 분리(혹은 로드) -> '---' 기준 분할
     meta, body = load_markdown(path)
+
+    # 2. body 규약 
     pass
 
 def main():
