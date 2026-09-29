@@ -32,7 +32,19 @@ with connect() as conn, conn.cursor() as cur: # with문 2개 사용과 동일
 # 5-1. 질문의 백터화
 q = get_embeddings().embed_query('상품을 반품하고 싶어요') # cs 관련 질문
 with connect() as conn, conn.cursor() as cur:
-    cur.execute()
+    # <=> : 코사인 유사도 계산 연산자(pgvector 제공)
+    # embedding <=> %s : 유사도 측정 표현
+    # 계산값이 작으면 서로 비슷함
+    # 양적으로 표현하기 위해 (1-유사도) -> 값이 클수록 유사도가 높다라고 표현
+    cur.execute("""
+        select
+            content,
+            1 - (embedding <=> %s) score
+        from
+            demo_vectors
+        order by embedding <=> %s
+        limit 3
+    """, (Vector(q)), Vector(q))
     # 결과 출력
     for result in cur.fetchall():
         print(result)
