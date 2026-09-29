@@ -27,3 +27,13 @@ L sql
     L migrations
         L 001_pgvector.sql
 ```
+
+# 테이블 구성 및 초기 작업 
+```
+python -m scripts.migrate
+```
+
+# 확인
+```
+docker exec -it agent-postgres psql -U agent -d agentlab
+```
