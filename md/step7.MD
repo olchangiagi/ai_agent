@@ -74,3 +74,11 @@ from demo_vectors;
   3 | 월 매출 분석   | [-0.06644361,-...
 (3 rows)
 ```
+
+# 실행
+```
+(agent) PS C:\Users\olcha\workspace\ai_agent> python -m steps.step7_pgvector
+('환불정책', 0.13430795073509216) <- cs 관련 샘플에서 가장 높은 점수를 얻음
+('월 매출 분석', 0.11051657795906067)
+('연차 휴가 규정', 0.013668003375411297)
+```
