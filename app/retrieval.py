@@ -20,7 +20,7 @@ def vector_search(query:str, k:int=5):
                 d.document_code,
                 d.title,
                 d.department,
-                d.category.
+                d.category,
                 c.content,
                 1-(c.embedding <=> %s) as score
             from document_chunks c
