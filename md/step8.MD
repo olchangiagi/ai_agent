@@ -18,6 +18,14 @@
 L sql
     L migrations
         L 002_documents.sql
+L steps
+    L step8_document_ingestion.py
+L app
+    L ingestion
+        L __init__.py
+        L ingest.py
+        L loader.py
+        L splitter.py
 ```
 
 # 데이터를 백터화 DB 입력 절차
@@ -25,4 +33,16 @@ L sql
 - 테이블 생성
 ```
 python -m scripts.migrate
+docker exec -it agent-postgres psql -U agent -d agentlab
+
+# 테이블 생성 확인                                                                                              
+agentlab=# \dt
+             List of relations
+ Schema |       Name        | Type  | Owner 
+--------+-------------------+-------+-------
+ public | demo_vectors      | table | agent
+ public | document_chunks   | table | agent
+ public | documents         | table | agent
+ public | schema_migrations | table | agent
+(4 rows)
 ```
