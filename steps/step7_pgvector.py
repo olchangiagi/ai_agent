@@ -19,7 +19,7 @@ with connect() as conn, conn.cursor() as cur: # with문 2개 사용과 동일
     for text, vec in zip(samples, vectors):
         # print(text, vec)
         # SQL 실행
-        cur.excute("""
+        cur.execute("""
             insert into demo_vectors(content, embedding) values (%s, %s)
             on conflict(content)
             do update set embedding = EXCLUDED.embedding
