@@ -8,6 +8,8 @@
 ```
 /
 L docker-compose.yml
+L steps
+    L step7_pgvector.py : 간단한 텍스트(문장)을 테이블 upsert(insert or update) 처리
 ```
 
 # DB 구성
@@ -36,4 +38,7 @@ python -m scripts.migrate
 # 확인
 ```
 docker exec -it agent-postgres psql -U agent -d agentlab
+
+# 생성된 schema 확인
+\dt 
 ```
