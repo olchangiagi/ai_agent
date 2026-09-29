@@ -11,3 +11,17 @@
 
 - RAG 기본 사용
 
+# 구조
+```
+/
+L steps
+    L step9_rag_basic.py : 검색 증강 테스트용
+L app
+    L retrieval.py : 백터 DB에 검색(질문 전달, K개)후 결과 반호나 함수 제공
+    L rag.py : 질문 -> 백터 DB 검색 -> 결과 + 프롬프트 -> LLM 추론 요청 -> 응답
+```
+
+# 실행
+```
+python -m 
+```
