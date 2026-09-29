@@ -44,7 +44,7 @@ with connect() as conn, conn.cursor() as cur:
             demo_vectors
         order by embedding <=> %s
         limit 3
-    """, (Vector(q)), Vector(q))
+    """, (Vector(q), Vector(q)))
     # 결과 출력
     for result in cur.fetchall():
         print(result)
