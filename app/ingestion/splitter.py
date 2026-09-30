@@ -12,6 +12,7 @@
 '''
 # 정규식
 import re
+from app.embedding import get_embeddings
 
 # 350글자수 이상을 가진 문단을 문장 단위로 쪼개기 진행 
 def _splite_sentences(block: str) -> list[str]:
@@ -29,8 +30,25 @@ def _splite_sentences(block: str) -> list[str]:
     # 최종 분절 데이터를 담는 그릇
     units: list[str] = list()
 
-    # 라인별 순회 -> 문장의 끝 기호(.!?...) 체크 -> 기반으로 순회를 하여 units에 포함
-
+    # 라인별 순회 -> 문장의 끝 기호(.!?。！ ？) 체크 -> 기반으로 순회를 하여 units에 포함
+    '''
+    # 라인 1개에 문장 2개가 포함
+    "환불 가능합니다. 배송비가 발생합니다."
+    # 처리
+    [
+        "환불 가능합니다.",
+        "배송비가 발생합니다."
+    ]
+    '''
+    for line in lines:
+        sentences = re.split(r"(?<=[.!?。 ！ ？])\s+", line)
+        # units에 담기
+        units.extend(
+            sentence.strip()
+            for sentence in sentences
+            if sentence.strip()
+        )
+    # units의 구성원은 온전한 문장 1개 혹은 문장이 길어서 쪼개진 문장의 조각 들이 포함될 수 있음
     return units
 
 # 시멘틱에 맞게 데이터를 담는 작업
@@ -67,10 +85,25 @@ def _semantic_units(text:str) -> list[str]:
 def semantic_split_text(text:str, threshold:float=0.60, min_chars:int=300, max_chars:int=1200) -> list[str]:
     # 1. semantic 유닛 단위 분할
     units = _semantic_units(text)
+    # 2. 값 확인 -> 분절의 결과 
+    if not units: return []
+    # 3. 유닛 개수가 1개라면 그대로 반환
+    if len(units) == 1: return units
+    # 4. 쪼개진 문장 혹은 문장 조각 -> 임베딩 처리
+    embeddings = get_embeddings().embed_documents(units)
 
+    # 5. 담는 그릇
+    chunks: list[str] = list()
+    current = units[0]
 
-    # _splite_sentences(text)
-    
+    # 6. 유닛간, 이전 백터와 다음 백터간 유사도 검사
+    for index in range(1, len(units)):
+        # 6-1. 대상 백터 획득
+        # 이전백터: 0 -> 1 ...
+        pre_vec = embeddings[index-1]
+        # 현재백터: 1 -> 2 ...
+        cur_vec = embeddings[index]
+        
     return []
 
 
