@@ -67,6 +67,14 @@ def advanced_search(
         )
         select...
         from scored
+
+        # PostgreSQL의 FTS(Full Text Search)를 이용한 키워드 일치 점수 산출 기능
+        # ts_rank(): 문서와 검색어가 얼마나 잘 일치하는지 점수로 계산
+        # to_tsvector(): 문서 내용을 검색 가능한 토큰 형태로 변환. 'simple' 보편적인 언어 대상, 'english' 등 존재
+        # plainto_tsquery(): 사용자가 입력한 일반 문자열을 PostgreSQL의 검색 Query 형태로 변환
+
+        # 하이브리드 검색
+        # 유사도 점수(ex: 80%), FTS(ex: 20%) 점수를 블랜딩 처리 -> 보다 정확한 의미를 가진 정보 추출
     '''
     sql = f"""
         select
@@ -75,7 +83,12 @@ def advanced_search(
             d.department,
             d.category,
             c.content,
-            1-(c.embedding <=> %s) as vector_score
+            1-(c.embedding <=> %s) as vector_score,
+            ts_rank(
+                to_tsvector('simple', c.content),
+                plainto_tsquery('simple', %s)
+            ) as fts_score
+
         from document_chunks c
         join documents d
         on c.document_id = d.id
