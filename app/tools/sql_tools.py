@@ -22,10 +22,10 @@ def sales_summary(start_date: str, end_date: str) -> str:
                 and order_date < (%s::date + INTERVAL '1 day')
             ;
         """
-        params = ()
+        params = (start_date, end_date)
         cur.execute(sql, params)
         revenue, count = cur.fetchone()
-    return f"revenue={revenue}, orders={count}, range{start_date}~{end_date}"
+    return f"revenue={revenue}, orders={count}, range={start_date}~{end_date}"
 
 @tool
 def top_products(start_date: str, end_date: str, limit:int=3) -> str:
@@ -41,7 +41,7 @@ def top_products(start_date: str, end_date: str, limit:int=3) -> str:
                 sum(o.quantity),
                 sum(amount)
             from orders o
-            join product p
+            join products p
                 using (product_id)
             where
                 status = 'paid'

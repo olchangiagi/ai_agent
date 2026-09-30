@@ -44,3 +44,27 @@ agentlab=# select * from products;
           5 | RAG 구축 컨설팅     | consulting |  800000.00 | 320000.00
 (5 rows)
 ```
+
+# 실행
+```
+python -m steps.step11_tools
+
+revenue=3586000.00, orders=8, range=2026-09-01~2026-09-05
+1. 사내 AI Agent 구축: qty=1, revenue=1200000.00 
+2. RAG 구축 컨설팅: qty=1, revenue=800000.00 
+3. 데이터 분석 패키지: qty=4, revenue=600000.00 
+[source=HR-LEAVE-2026 | hybrid=0.428]
+# 연차휴가 운영 규정
+
+[source=HR-TRAVEL-2026 | hybrid=0.263]
+# 국내 출장비 규정
+
+[source=HR-TRAVEL-2026 | hybrid=0.200]
+출장 교통비는 회사가 승인한 실비를 기준으로 정산한다.
+
+[source=HR-TRAVEL-2026 | hybrid=0.079]
+식비는 별도 영수증 제출 없이 회사의 일비 기준으로 지급한다.
+
+[source=HR-LEAVE-2026 | hybrid=0.073]
+입사 1년 미만 직원은 근로한 기간과 사내 운영 기준에 따라 사용할 수 있는 휴가를 확인해야 한다.
+```
