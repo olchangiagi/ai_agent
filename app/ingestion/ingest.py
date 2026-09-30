@@ -10,6 +10,7 @@ from app.embedding import get_embeddings
 from app.database import connect
 from pgvector import Vector
 from psycopg.types.json import Jsonb
+from app.ingestion.splitter import semantic_split_text
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA = ROOT / "data"
@@ -17,14 +18,32 @@ DATA = ROOT / "data"
 # rglob() : 하위 경로까지 다 찾아가서 해당 파일을 찾음
 # print(DATA.rglob("*.md"))
 
+# 청킹 처리 통합 함수
+def make_chunks(body:str,
+                *,
+                strategy:str = "paragraph", # paragraph: 고정 크기, semantic: 의미 단위 
+                semantic_threshold: float=0.60,  
+                # max_chars: int = 1200
+                ) -> list[str]:
+    # 문단/길이 기준 청킹
+    if strategy == "paragraph":
+        return splite_text(body)
+    # 의미 유사도 기준 청킹
+    elif strategy == "semantic":
+        return semantic_split_text(body, semantic_threshold)
+    pass
+
 # md파일별로 처리
-def ingest_file(path: Path):
+# 청킹 방법 선택, 필요시 유사도 임계값 설정 가능
+def ingest_file(path: Path, strategy: str, semantic_threshold: float):
     # 1. 문서내에서 메타 데이터와 본문 분리(혹은 로드) -> '---' 기준 분할
     meta, body = load_markdown(path)
 
     # 2. body(규약 원문) 관련 rag에서 검색 가능한 작은 단위로 chunk 처리 (fixed-size 단순 청킹 수행)
-    chunks = splite_text(body)
+    # chunks = splite_text(body)
     # print(chunks)
+    # 2. 시멘틱 수정
+    chunks = make_chunks(body, strategy='semantic', semantic_threshold=semantic_threshold)
 
     # 3. 임베딩 처리
     vectors = get_embeddings().embed_documents(chunks)

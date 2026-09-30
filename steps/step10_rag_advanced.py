@@ -28,6 +28,6 @@ paragraph_chunks = splite_text(DEMO_TEXT, max_chars=300)
 #     print(f'[{i}] {chunk}')
 
 # 2. 시멘틱 청킹
-semantic_chunks = semantic_split_text(DEMO_TEXT, threshold=0.55, min_chars=80, max_chars=400)
+semantic_chunks = semantic_split_text(DEMO_TEXT, threshold=0.55, max_chars=400)
 for i, chunk in enumerate(paragraph_chunks, 1):
     print(f'[{i}] {chunk}')
