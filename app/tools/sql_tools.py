@@ -12,7 +12,15 @@ def sales_summary(start_date: str, end_date: str) -> str:
     '''
     with connect() as conn, conn.cursor() as cur:
         sql = """
-
+            select
+                COALESCE(sum(amount), 0),
+                count(*)
+            from orders
+            where 
+                status='paid'
+                and order_date >= %s::date
+                and order_date < (%s::date + INTERVAL '1 day')
+            ;
         """
         params = ()
         cur.execute(sql, params)
