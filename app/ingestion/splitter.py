@@ -1,12 +1,67 @@
 '''
-- fixed-size 단위 청킹 처리 모듈
+# 기존 fixed-size 단위 청킹 처리 모듈
 - 최대 길이는 700 설정(글저수), 토큰 최대는 1024이므로, 범위안에 여유롭게 들어옴
 - 청킹의 trade-off
     - chunk가 작으면 검색 정밀도 상승, 하지만 문맥이 잘릴 수 있음
     - chunk가 크면 문맥 보전 상승, 하지만 불필요한 내용 포함 가능
 - chunk 사이즈는 rag 성능의 하이퍼파라미터 -> 검색 평가를 통해서 최적 크기를 결정
 - 고정크기 -> overlap -> token 기반 -> 시멘틱/구조 기반 청킹 or 청킹 에이전트 개발 반영
+
+# 시멘틱 청킹
+    - 말뭉치 -> 문장/문단 단위로 분절
 '''
+# 정규식
+import re
+
+# 긴 문단(말뭉치)을 문장 단위로 
+def _splite_sentences(block: str) -> list[str]:
+    # 1. 좌우 공백 제거
+    block = block.strip()
+
+# 시멘틱에 맞게 데이터를 담는 작업
+def _semantic_units(text:str) -> list[str]:
+    # 1. 문단의 끝 단위를 1차로 쪼개기 -> r"\n\s*\n" (문단 구분용)
+    blocks = [
+        # 문단을 리스트의 맴버로 구성
+        block.strip()
+        # 말뭉치에서 문단의 구분값 기준으로 쪼개기 -> 반복
+        for block in re.split(r"\n\s*\n", text)
+        # 문단의 내용이 비어있으면 배제
+        if block.strip()
+    ]
+    print(len(blocks))
+
+    # 2. 청킹 단위 데이터를 담는 그릇
+    units: list[str] = list()
+
+    # 3. 문단 단위로 순회 -> 1차적으로 청킹 진행 (최소글자수 단위 나름 구성 -> 350 기준)
+    for block in blocks:
+        if len(block) <= 350:
+            units.append(block)
+        else:
+            # 350 글자수보다 많은 글자수를 가진 문단을 좀 더 쪼개기 위해 _splite_sentences()에 전달
+            units.append(
+                _splite_sentences(block)
+            )
+
+
+    return units
+
+# 시멘틱 청킹 함수
+# 원문, 임계값(0.6 이하면 청킹), 최대글자수(유사도가 계속 0.6 이상이여도 최대 글자수가 1200자를 넘어가면 청킹)
+def semantic_split_text(text:str, threshold:float=0.60, min_chars:int=300, max_chars:int=1200) -> list[str]:
+    # 1. semantic 유닛 단위 분할
+    units = _semantic_units(text)
+
+
+    # _splite_sentences(text)
+    
+    return []
+
+
+
+
+
 
 def splite_text(text:str, max_chars:int = 700):
     # 청크별로 모으는 그릇, 현재 순서상 문서 데이터
