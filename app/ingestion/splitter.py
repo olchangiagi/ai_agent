@@ -13,10 +13,25 @@
 # 정규식
 import re
 
-# 긴 문단(말뭉치)을 문장 단위로 
+# 350글자수 이상을 가진 문단을 문장 단위로 쪼개기 진행 
 def _splite_sentences(block: str) -> list[str]:
     # 1. 좌우 공백 제거
     block = block.strip()
+    # 2. 값 확인
+    if not block: return []
+    # 3. 줄단위로 분절 -> 제목, 목록 등 문서 형식에 따라 의미가 있을 수 있음
+    print("block.splitlines():", block.splitlines())
+    lines = [
+        line.strip()
+        for line in block.splitlines()
+        if line.strip()
+    ]
+    # 최종 분절 데이터를 담는 그릇
+    units: list[str] = list()
+
+    # 라인별 순회 -> 문장의 끝 기호(.!?...) 체크 -> 기반으로 순회를 하여 units에 포함
+
+    return units
 
 # 시멘틱에 맞게 데이터를 담는 작업
 def _semantic_units(text:str) -> list[str]:
