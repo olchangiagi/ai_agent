@@ -29,5 +29,15 @@ paragraph_chunks = splite_text(DEMO_TEXT, max_chars=300)
 
 # 2. 시멘틱 청킹
 semantic_chunks = semantic_split_text(DEMO_TEXT, threshold=0.55, max_chars=400)
-for i, chunk in enumerate(paragraph_chunks, 1):
-    print(f'[{i}] {chunk}')
+# for i, chunk in enumerate(paragraph_chunks, 1):
+#     print(f'[{i}] {chunk}')
+
+from app.retrieval import advanced_search
+# 3. 검색
+# 전체 검색
+query = "상품 하자 환불 기간과 배송비 부담 주체"
+for row in advanced_search(query, k=5):
+    print(row[0], row[1], row[-2], row[-1])
+
+
+# 필터를 활용한 검색 -> CS만 검색 등 제한을 두고 검색
