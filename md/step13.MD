@@ -7,3 +7,13 @@
 ```
 python -m scripts.migrate
 ```
+
+# 구조
+```
+/
+L app
+    L tools
+        L sql_tools.py          : 추가로 특정 날짜내에 환불 요청 건수, 금액, 사유 등 조회
+L steps
+    L step13_sql_rag_agent.py   : 질문을 가지고 LLM 추론 진행
+```
