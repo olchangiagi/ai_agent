@@ -1,8 +1,8 @@
--- ===================================
+-- ==================================
 -- 1. 원본 문서 정보를 저장하는 테이블
---    문서 자체, 메타 정보
+--    문저 자체, 메타 정보
 --    documents
--- ===================================
+-- ==================================
 CREATE TABLE IF NOT EXISTS documents (
 
     -- 문서 내부 PK
@@ -40,11 +40,13 @@ CREATE TABLE IF NOT EXISTS documents (
     created_at TIMESTAMPTZ DEFAULT NOW()
 );
 
--- ===================================
+
+
+-- ==================================
 -- 2. 문서를 작은 단위(chunk)로 나눠서 저장하는 테이블
---    RAG 수행시 chunk 단위로 검색, 하나의 문서는 n개의 chunk로 분할
---    document_chunk
--- ===================================
+--    RAG 수행시 chunk 단위로 검색, 하나의 문서는 n개의 chunk 분할
+--    document_chunks
+-- ==================================
 CREATE TABLE IF NOT EXISTS document_chunks (
 
     -- chunk 내부 PK
@@ -84,16 +86,24 @@ CREATE TABLE IF NOT EXISTS document_chunks (
     UNIQUE(document_id, chunk_index)
 );
 
--- ===================================
+
+-- ==================================
 -- 3. 문서 필터 검색용 인덱스
--- ===================================
+--    부서, 카테고리, 적용일 기준 문서 필터 검색용 복합 인덱스
+-- ==================================
+create index if not exists idx_documents_filters
+on documents(department, category, effective_date)
 
-
--- ===================================
+-- ==================================
 -- 4. chunk 메타 정보 검색용 인덱스
--- ===================================
+--    jonb 타입의 컬럼이므로, jsonb 내부값,키등을 빠른 검색을 하기 위해  gin 인덱스 사용
+-- ==================================
+create index if not exists idx_chunks_metadata
+on document_chunks using gin(metadata)
 
-
--- ===================================
+-- ==================================
 -- 5. 임베딩 백터 유사도 검색용 인덱스
--- ===================================
+--    코사인 거리 유사도 기반 백터 검색시 사용있도록 hnsw 인덱스 반영
+-- ==================================
+create index if not exists idx_chunks_hnsw
+on document_chunks using hnsw(embedding vector_cosine_ops)
