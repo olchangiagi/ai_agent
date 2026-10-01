@@ -18,3 +18,5 @@ BEDROCK_CHAT_MODEL  = os.getenv('BEDROCK_CHAT_MODEL', 'us.anthropic.claude-sonne
 BEDROCK_EMBED_MODEL = os.getenv('BEDROCK_EMBED_MODEL', 'amazon.titan-embed-text-v2:0')
 # 백터DB 주소
 DATABASE_URL        = os.getenv('DATABASE_URL', 'postgresql://agent:agent@localhost:5432/agentlab')
+# ID
+USER_ID                 = os.getenv('USER_ID', 'de-ai-08')

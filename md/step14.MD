@@ -26,4 +26,5 @@ L app
         L graph             : tool 등록
 L steps
     L step14_memory.py      : 메모리 테스트
+L .env                      : 사용자 ID 더미 구성
 ```
