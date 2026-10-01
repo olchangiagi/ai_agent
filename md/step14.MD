@@ -28,3 +28,22 @@ L steps
     L step14_memory.py      : 메모리 테스트
 L .env                      : 사용자 ID 더미 구성
 ```
+
+# 오류 조치
+```
+# 005 실행 로그 삭제 -> psql에서 진행
+delete from schema_migrations where name='005_memory.sql';
+
+# agent_memories 삭제
+drop table agent_memories;
+
+# sql 실행 -> 터이널 에서 진행
+python -m scripts.migrate
+
+# demo() 주석 모두 해제
+step14_memory.py
+
+# 프로그램 실행
+python -m steps.step14_memory
+
+```
