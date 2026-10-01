@@ -17,9 +17,29 @@ def remember_user_preference(content: str, importance: float=0.7) -> str:
     '''
         사용자가 명시한 지속적인 신호, 업무 방식을 장기 기억으로 저장
     '''
-    # ...
+    # 파라미터 구성
+    # content -> embedding후 백터화 처리
+    vec = Vector(get_embeddings().embed_query(content))
+    # 중요도 보정
+    importance = max(0.0, min(float(importance), 1.0)) 
+
+
+    # 쿼리 실행
+    with connect() as conn, conn.cursor() as cur:
+        # insert 구문
+        sql = """
+            insert into agent_memories
+            (used_id, memory_type, content, embedding, importance)
+            values
+            (%s, 'preference', content)
+        """
+        params = (USER_ID, content, vec, importance)
+        cur.execute(sql, params)
+        conn.commit()
+        pass
 
     return "preference memory saved" # 도구를 사용한 LLM에게 전달(LangGraph 설계상 툴 -> Agent)
+
 
 
 # 3. 도구 2
@@ -28,7 +48,16 @@ def recall_user_memory(query:str, k:int=3) -> str:
     '''
         현재 질문과 관련된 사용자의 과거 장기 기억을 검색
     '''
-    # ...
+    # 파라미터 구성
+
+    # 쿼리 실행
+    with connect() as conn, conn.cursor() as cur:
+        # select 문
+
+        # fetchall
+
+        # 엑세스 시간 update 구문
+        pass
 
     # 검색 결과를 문자열로 구성하여 타입, 유사도 점수, 중요도, 내용을 k개 반복 구성하여 반환
     # 도구를 사용한 LLM에게 전달 (LangGraph 설계상 툴 -> Agent)
