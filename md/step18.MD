@@ -14,4 +14,6 @@
 /
 L steps
     L step18_observability.py
+L app
+    L observability.py          : LangSmith 상태 반환
 ```
