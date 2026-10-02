@@ -22,12 +22,12 @@ async def run(query: str):
     for message in result["messages"]:
         if getattr(message, "tool_calls", None):
             print("TOOL CALLS", {x.get('name') for x in message.tool_calls})
-        if getattr(message, "tyhpe", ""):
+        if getattr(message, "type", ""):
             print("TOOL RESULT: ", message.content)
     # 최종 답변(LLM)
     print("+"*30)
     # print("[최종 답변]\n\n", result["messages"][-1].content)
     # 출력 포멧을 설정한 이후 -> final
     final = result.get('final')
-    print("[최종답변]\n\n", final.model_dump.json(indent=2) if final else result["message"][-1].content)
+    print("[최종답변]\n\n", final.model_dump_json(indent=2) if final else result["messages"][-1].content)
     print("+"*30)
