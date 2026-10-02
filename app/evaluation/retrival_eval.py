@@ -24,7 +24,17 @@ def main(k:int = 5):
         codes = [row[0] for row in rows]
         # 3. 기대 정답 (문서코드) 획득
         expected = case['expected_source']
-        pass
+        # 4. 기대 문서코드(정답)이 Top-k 결과에 포함되었는지 확인
+        hit =expected in codes # [True, False, True...]
+        hits.append(int(hit))
+        # 5. 기대 문서(정답)이 몇번째에 검색되었는지 확인, 없었다면 None
+        # hit가 참이면 -> 문서가 존재했다(기대처럼 검색되었다) -> 순위 세팅, 거짓이면 -> None
+        rank = (codes.index(expected)+1) if hit else None
+        # 6. MRR 지표 계산을 위해 순위의 역수 저장
+        # 1등 -> 1/1, 2등 -> 1/2, 3등 -> 1/3 ...
+        reciprocal.append(1/rank if rank else 0)
+        # 7. 질문에 대한 검색 결과, 정답 문서 순위 등 출력
+        print(f"{case['question']} -> {codes} | expected = {expected} | rank = {rank}")
     pass
 
 # 직접 실행 대비
