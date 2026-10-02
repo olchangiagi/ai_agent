@@ -8,7 +8,7 @@ from app.retrieval import advanced_search
 # @tool을 함수의 데코레이터 자리에 배치
 
 @tool
-def search_company_policyh(query: str, department: str = " ") -> str:
+def search_company_policy(query: str, department: str = " ") -> str:
     '''
         사내 HR/CS/SALES 규정과 정책을 검색한다. 해당 내용은 LLM이 한번도 접하지 못한 내용인 사내 정보
         부서를 알거나 추정할 수 있다면 HR, CS, SALES들 중 하나를 검색시 반영하면 됨
