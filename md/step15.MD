@@ -11,6 +11,8 @@
         - 해외
             - ..
         - 서비스 주체별 MCP 제공
+    - 사용
+        - 이미 구성된 MCP 사용 -> 서비스 업체(노션, 슬렉 등에서 개방된 규격을 사용하면 본인 앱에서 연동 가능)
     - 장점
         - Agent <-> MCP 표준화 <-> 서비스 등
             - 누가 만들어도 MCP 규격을 준수하면 어떤 LLM, Agent 모두 호환 가능
@@ -44,6 +46,8 @@ L mcp_servers
 L app
     L tools
         L mcp_tools.py      : MCP Client 역할, LangGraph상 도구로 등록 -> Agent에서 사용
+    L agent
+        L graph.py          : 도구 등록
 L steps
     L step15_mcp.py         : MCP 테스트용, MCP host 포지션
 ```
