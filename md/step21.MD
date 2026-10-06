@@ -32,3 +32,7 @@ L infra
 # Agent 컨테이너화
 - Dockerfile 구성하여 이미지 생성
     - FastAPI + LangGraph등 
+
+# docker-compose 구성
+- 서비스
+    - Agent 컨테이너 구성
