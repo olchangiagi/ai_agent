@@ -12,8 +12,10 @@ class Plan(BaseModel):
     sub_questions : list[str] = Field(min_length=1, max_length=4) # 1, 4는 설정값
     pass
 
-# 2. Verifier 구조
+# 2. Verifier 구조: 결과 통과 여부, 통과하지 못할 경우 -> 부족한 근거
 class Verifier(BaseModel):
+    passed : bool
+    gaps : list[str] = Field(default_factory=list)
     pass
 
 # 3. Agentic loop 구성: 계획 -> 실행 -> 검증 -> 부족하다는 피드백이 나온다면 재시도
