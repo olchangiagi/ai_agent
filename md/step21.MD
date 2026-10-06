@@ -28,3 +28,7 @@ L infra
     L terraform
         L *.tf
 ```
+
+# Agent 컨테이너화
+- Dockerfile 구성하여 이미지 생성
+    - FastAPI + LangGraph등 
