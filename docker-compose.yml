@@ -24,7 +24,7 @@ services:
     container_name: agnet-serivce
     env_file:
       - .env
-    enviroment:
+    environment:
       - DATABASE_URL:postgresql://agent:agent@postgres:5432/agentlab
     ports:
       - "8000:8000"
