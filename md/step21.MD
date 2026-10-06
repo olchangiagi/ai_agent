@@ -36,3 +36,7 @@ L infra
 # docker-compose 구성
 - 서비스
     - Agent 컨테이너 구성
+- 컨테이너 구성
+```
+    docker compose up --build
+```
