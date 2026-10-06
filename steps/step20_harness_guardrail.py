@@ -6,9 +6,8 @@ from app.main import run
 import asyncio
 
 async def main():
-    result = await run("2026년 9월 매출을 요약해줘.")
-    final = result.get('final')
-    print(final.answer if final else result["messages"][-1].content)
+    await run("2026년 9월 매출을 요약해줘.")
+
 
 asyncio.run(
     main()
