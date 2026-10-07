@@ -65,5 +65,12 @@ resource "archive_file" "source" {
 
 # 버킷에 zip 파일 업로드
 resource "aws_s3_object" "source" {
-  
+  # 업로드할 버킷 
+  bucket = aws_s3_bucket.deploy.id
+  # key -> 파일명에 해시값을 적용하여 변화감지
+  key = "releases/agent-source-${data.archive_file.source.output.md5}.zip"
+  # 로컬 파일의 위치
+  source = data.archive_file.source.output_path
+  # 소스에 MD5 적용하여 파일 변경시 s3 object 감지
+  etag = data.archive_file.source.output_md5
 }
