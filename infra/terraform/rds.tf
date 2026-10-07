@@ -13,7 +13,7 @@ resource "aws_db_subnet_group" "main" {
     # SSM parameter의 이름, 내용: DB 접속 URL
     name = "${var.project_name}-db-subnet"
     # vpc에서 구성한 id 세팅
-    subnet_ids = aws_subnet_public[*].id
+    subnet_ids = aws_subnet.public[*].id
     tags = {Name = "${var.project_name}-db-subnets"}
 }
 
@@ -50,7 +50,7 @@ resource "aws_db_instance" "postgres" {
     # 서브넷 그룹 적용
     db_subnet_group_name = aws_db_subnet_group.main.name
     # 보안 그룹 적용
-    vpc_security_group_ids = [aws_security_group.rds]
+    vpc_security_group_ids = [aws_security_group.rds.id]
     # 인터넷 직접 접근 -> 허용 x, 외부 접속 차단
     publicly_accessible = false
 
