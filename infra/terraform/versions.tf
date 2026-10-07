@@ -8,6 +8,7 @@ terraform {
       version = "~> 6.0"
     }
     # 프로젝트 소스를 ZIP으로 만들기 위해 사용
+    # 소스코드 압축 -> S3 업로드 -> 
     archive = {
       source  = "hashicorp/archive"
       version = "~> 2.7"
